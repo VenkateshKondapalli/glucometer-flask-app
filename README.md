@@ -53,7 +53,7 @@ The app features an intuitive web interface, interactive visualizations, and a p
 
 ### 1️⃣ Clone the Repository  
 ```bash
-git clone <your-repository-url>
+git clone <https://github.com/VenkateshKondapalli/glucometer-flask-app.git>
 cd glucometer-flask-app
 ```
 
