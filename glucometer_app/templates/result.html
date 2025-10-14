@@ -2,43 +2,253 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Prediction Result</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediction Result - Glucose Forecaster</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
       body {
-        font-family: sans-serif;
-        text-align: center;
-        margin-top: 50px;
-        background-color: #f4f4f9;
-      }
-      h1 {
-        color: #333;
-      }
-      #chart-container {
-        width: 80%;
-        margin: 20px auto;
-        background-color: #fff;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
         padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
-      a {
-        display: inline-block;
-        margin-top: 20px;
-        text-decoration: none;
-        background-color: #007bff;
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        animation: fadeIn 0.5s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header {
+        text-align: center;
         color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
+        margin-bottom: 30px;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.95;
+      }
+
+      .chart-container {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+      }
+
+      .chart-wrapper {
+        position: relative;
+        height: 400px;
+      }
+
+      .stats-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+
+      .stat-card {
+        background: white;
+        border-radius: 15px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .stat-label {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .stat-value {
+        color: #333;
+        font-size: 2rem;
+        font-weight: bold;
+      }
+
+      .stat-unit {
+        color: #999;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+
+      .actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 15px 30px;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+      }
+
+      .btn-secondary {
+        background: white;
+        color: #667eea;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-secondary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      .alert {
+        background: white;
+        border-left: 4px solid #ffc107;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      .alert h3 {
+        color: #856404;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+      }
+
+      .alert p {
+        color: #856404;
+        line-height: 1.6;
+      }
+
+      @media (max-width: 768px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .chart-wrapper {
+          height: 300px;
+        }
+
+        .stat-card {
+          padding: 20px;
+        }
+
+        .chart-container {
+          padding: 20px;
+        }
       }
     </style>
   </head>
   <body>
-    <h1>Prediction Result</h1>
-    <div id="chart-container">
-      <canvas id="glucoseChart"></canvas>
+    <div class="container">
+      <div class="header">
+        <h1>📊 Prediction Results</h1>
+        <p>30-Minute Glucose Level Forecast</p>
+      </div>
+
+      <div class="alert">
+        <h3>⚠️ Medical Disclaimer</h3>
+        <p>
+          These predictions are for informational purposes only and should not
+          replace professional medical advice. Always consult with healthcare
+          professionals for treatment decisions.
+        </p>
+      </div>
+
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-icon">📈</div>
+          <div class="stat-label">Current Level</div>
+          <div class="stat-value">
+            <span id="currentValue">--</span>
+            <span class="stat-unit">mg/dL</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">🎯</div>
+          <div class="stat-label">Predicted Level</div>
+          <div class="stat-value">
+            <span id="predictedValue">--</span>
+            <span class="stat-unit">mg/dL</span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon">📉</div>
+          <div class="stat-label">Trend</div>
+          <div class="stat-value">
+            <span id="trendValue">--</span>
+            <span class="stat-unit">mg/dL</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <div class="chart-wrapper">
+          <canvas id="glucoseChart"></canvas>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a href="/" class="btn btn-primary">Predict Another File</a>
+        <button onclick="downloadChart()" class="btn btn-secondary">
+          Download Chart
+        </button>
+      </div>
     </div>
-    <a href="/">Predict Another File</a>
 
     <script>
       // These variables are filled in by Flask with your data
@@ -47,55 +257,139 @@
       const predLabels = {{ pred_labels|tojson }};
       const predData = {{ pred_data|tojson }};
 
-      const ctx = document.getElementById('glucoseChart').getContext('2d');
+      // Calculate statistics
+      const currentGlucose = historyData[historyData.length - 1];
+      const predictedGlucose = predData[predData.length - 1];
+      const trend = predictedGlucose - currentGlucose;
 
+      document.getElementById('currentValue').textContent = currentGlucose.toFixed(1);
+      document.getElementById('predictedValue').textContent = predictedGlucose.toFixed(1);
+      document.getElementById('trendValue').textContent =
+        (trend >= 0 ? '+' : '') + trend.toFixed(1);
+
+      // Create chart
+      const ctx = document.getElementById('glucoseChart').getContext('2d');
       const myChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-              labels: historyLabels.concat(predLabels), // Combine historical and future labels
-              datasets: [
-                  {
-                      label: 'Historical Glucose (mg/dL)',
-                      data: historyData,
-                      borderColor: 'blue',
-                      fill: false,
-                      tension: 0.1
-                  },
-                  {
-                      label: 'Predicted Glucose (mg/dL)',
-                      // Prepend nulls so the prediction line starts where the history ends
-                      data: Array(historyData.length).fill(null).concat(predData),
-                      borderColor: 'red',
-                      borderDash: [5, 5], // Make it a dashed line
-                      fill: false,
-                      tension: 0.1
-                  }
-              ]
-          },
-          options: {
-              responsive: true,
-              plugins: {
-                  title: {
-                      display: true,
-                      text: 'Glucose History and 30-Minute Forecast'
-                  }
+        type: 'line',
+        data: {
+          labels: historyLabels.concat(predLabels),
+          datasets: [
+            {
+              label: 'Historical Glucose',
+              data: historyData,
+              borderColor: '#667eea',
+              backgroundColor: 'rgba(102, 126, 234, 0.1)',
+              borderWidth: 3,
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              pointBackgroundColor: '#667eea'
+            },
+            {
+              label: 'Predicted Glucose',
+              data: Array(historyData.length).fill(null).concat(predData),
+              borderColor: '#764ba2',
+              backgroundColor: 'rgba(118, 75, 162, 0.1)',
+              borderWidth: 3,
+              borderDash: [10, 5],
+              fill: true,
+              tension: 0.4,
+              pointRadius: 4,
+              pointHoverRadius: 6,
+              pointBackgroundColor: '#764ba2'
+            },
+            {
+              label: 'Normal Range',
+              data: Array(historyLabels.length + predLabels.length).fill(100),
+              borderColor: '#4caf50',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              fill: false,
+              pointRadius: 0,
+              tension: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            title: {
+              display: true,
+              text: 'Glucose History and 30-Minute Forecast',
+              font: {
+                size: 18,
+                weight: 'bold'
               },
-              scales: {
-                  x: {
-                      title: {
-                          display: true,
-                          text: 'Time'
-                      }
-                  },
-                  y: {
-                      title: {
-                          display: true,
-                          text: 'Glucose (mg/dL)'
-                      }
-                  }
+              padding: 20
+            },
+            legend: {
+              display: true,
+              position: 'top',
+              labels: {
+                padding: 15,
+                font: {
+                  size: 12
+                }
               }
+            },
+            tooltip: {
+              mode: 'index',
+              intersect: false,
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
+              padding: 12,
+              titleFont: {
+                size: 14
+              },
+              bodyFont: {
+                size: 13
+              }
+            }
+          },
+          scales: {
+            x: {
+              title: {
+                display: true,
+                text: 'Time',
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                }
+              },
+              grid: {
+                display: false
+              }
+            },
+            y: {
+              title: {
+                display: true,
+                text: 'Glucose Level (mg/dL)',
+                font: {
+                  size: 14,
+                  weight: 'bold'
+                }
+              },
+              grid: {
+                color: 'rgba(0, 0, 0, 0.05)'
+              },
+              beginAtZero: false
+            }
+          },
+          interaction: {
+            mode: 'nearest',
+            axis: 'x',
+            intersect: false
           }
+        }
       });
+
+      function downloadChart() {
+        const link = document.createElement('a');
+        link.download = 'glucose-prediction.png';
+        link.href = myChart.toBase64Image();
+        link.click();
+      }
     </script>
   </body>
 </html>
