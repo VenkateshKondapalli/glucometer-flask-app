@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prediction Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        text-align: center;
+        margin-top: 50px;
+        background-color: #f4f4f9;
+      }
+      h1 {
+        color: #333;
+      }
+      #chart-container {
+        width: 80%;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      a {
+        display: inline-block;
+        margin-top: 20px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Prediction Result</h1>
+    <div id="chart-container">
+      <canvas id="glucoseChart"></canvas>
+    </div>
+    <a href="/">Predict Another File</a>
+
+    <script>
+      // These variables are filled in by Flask with your data
+      const historyLabels = {{ history_labels|tojson }};
+      const historyData = {{ history_data|tojson }};
+      const predLabels = {{ pred_labels|tojson }};
+      const predData = {{ pred_data|tojson }};
+
+      const ctx = document.getElementById('glucoseChart').getContext('2d');
+
+      const myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: historyLabels.concat(predLabels), // Combine historical and future labels
+              datasets: [
+                  {
+                      label: 'Historical Glucose (mg/dL)',
+                      data: historyData,
+                      borderColor: 'blue',
+                      fill: false,
+                      tension: 0.1
+                  },
+                  {
+                      label: 'Predicted Glucose (mg/dL)',
+                      // Prepend nulls so the prediction line starts where the history ends
+                      data: Array(historyData.length).fill(null).concat(predData),
+                      borderColor: 'red',
+                      borderDash: [5, 5], // Make it a dashed line
+                      fill: false,
+                      tension: 0.1
+                  }
+              ]
+          },
+          options: {
+              responsive: true,
+              plugins: {
+                  title: {
+                      display: true,
+                      text: 'Glucose History and 30-Minute Forecast'
+                  }
+              },
+              scales: {
+                  x: {
+                      title: {
+                          display: true,
+                          text: 'Time'
+                      }
+                  },
+                  y: {
+                      title: {
+                          display: true,
+                          text: 'Glucose (mg/dL)'
+                      }
+                  }
+              }
+          }
+      });
+    </script>
+  </body>
+</html>
