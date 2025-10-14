@@ -101,5 +101,5 @@ After uploading your XML file, you’ll see:
 
 ## 🧑‍💻 Author  
 **Venkatesh Kondapalli**  
-📧 [Your Email or LinkedIn]  
+📧 https://www.linkedin.com/in/venkatesh-kondapalli 
 💻 Passionate about AI, ML, and Intelligent Healthcare Systems  
