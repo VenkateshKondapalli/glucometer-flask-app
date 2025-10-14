@@ -1,89 +1,105 @@
-Glucometer Glucose Forecaster 🩸
-A web application built with Flask that uses a deep learning Transformer model to predict future blood glucose levels based on historical patient data from XML files.
+# 🩸 Glucometer Glucose Forecaster  
+**A Flask web application powered by a Transformer-based deep learning model for real-time blood glucose forecasting.**
 
-Features
-30-Minute Glucose Forecasting: Predicts a patient's blood glucose levels for the next 30 minutes.
+---
 
-XML File Upload: Accepts patient data in the specified XML format.
+## 🚀 Overview  
+**Glucometer Glucose Forecaster** predicts a patient’s blood glucose levels **30 minutes into the future** using historical data from XML files.  
+The app features an intuitive web interface, interactive visualizations, and a powerful Transformer model optimized for time-series prediction.
 
-Interactive Visualization: Displays the patient's recent glucose history alongside the model's forecast on an interactive line chart using Chart.js.
+---
 
-Transformer Model: Utilizes a sophisticated Transformer-based architecture built with TensorFlow/Keras for time-series prediction.
+## ✨ Features  
 
-Industry-Standard Project Structure: Organized using a scalable Flask Application Factory pattern with Blueprints.
+- 🕒 **30-Minute Glucose Forecasting** — Predict upcoming glucose levels based on past readings.  
+- 📂 **XML File Upload** — Upload patient data in a structured XML format.  
+- 📊 **Interactive Visualization** — Explore real-time glucose trends and forecasts via **Chart.js** graphs.  
+- 🤖 **Deep Learning Model (Transformer)** — Built with **TensorFlow** and **Keras** for accurate time-series prediction.  
+- 🧩 **Modular Flask Architecture** — Scalable **Application Factory** structure with Blueprints for clean project organization.  
 
-Tech Stack
-Backend: Python, Flask
+---
 
-Machine Learning: TensorFlow, Keras, Scikit-learn
+## 🧠 Tech Stack  
 
-Data Handling: Pandas, NumPy
+| Category | Technologies |
+|-----------|--------------|
+| **Backend** | Flask, Python |
+| **Machine Learning** | TensorFlow, Keras, Scikit-learn |
+| **Data Handling** | Pandas, NumPy |
+| **Frontend** | HTML, JavaScript, Chart.js |
 
-Frontend: HTML, JavaScript, Chart.js
+---
 
-Project Structure
-The project follows a professional Flask application factory structure for scalability and maintainability.
+## 🏗️ Project Structure  
 
+```
 /glucometer-flask-app/
-├── run.py                  # Main entry point to run the app
+├── run.py                  # Entry point to start the Flask app
 ├── config.py               # Configuration settings
-├── requirements.txt        # Python dependencies
-└── glucometer_app/         # The main application package
-    ├── __init__.py         # Application factory
-    ├── ml_utils.py         # Model loading and prediction logic
-    ├── static/             # CSS/JS files
+├── requirements.txt        # Project dependencies
+└── glucometer_app/         # Main application package
+    ├── __init__.py         # Flask Application Factory
+    ├── ml_utils.py         # Model loading & prediction logic
+    ├── static/             # CSS and JS files
     ├── templates/          # HTML templates
-    └── main/               # Main application blueprint
+    └── main/               # Application blueprint
         ├── __init__.py
-        └── routes.py
+        └── routes.py       # App routes and logic
+```
 
-Setup and Installation
-Follow these steps to get the application running on your local machine.
+---
 
-1. Clone the Repository
+## ⚙️ Setup and Installation  
+
+### 1️⃣ Clone the Repository  
+```bash
 git clone <your-repository-url>
 cd glucometer-flask-app
+```
 
-2. Create and Activate a Virtual Environment
-It's highly recommended to use a virtual environment to manage project dependencies.
-
-Create the environment:
-
+### 2️⃣ Create and Activate a Virtual Environment  
+**Windows**
+```bash
 python -m venv venv
-
-Activate the environment:
-
-On Windows:
-
 venv\Scripts\activate
+```
 
-On macOS/Linux:
-
+**macOS/Linux**
+```bash
+python3 -m venv venv
 source venv/bin/activate
+```
 
-3. Install Dependencies
-Install all the required Python libraries using the requirements.txt file.
-
+### 3️⃣ Install Dependencies  
+```bash
 pip install -r requirements.txt
+```
 
-4. Run the Application
-Start the Flask development server by running the run.py file.
-
+### 4️⃣ Run the Application  
+```bash
 python run.py
+```
 
-The application will be available at http://127.0.0.1:5000.
+Then open your browser and navigate to:  
+👉 **http://127.0.0.1:5000**
 
-How to Use
-Open your web browser and navigate to http://127.0.0.1:5000.
+---
 
-Click the "Choose File" button and select a patient data XML file (a sample test_patient.xml is provided in the repository).
+## 📈 Example Output  
+After uploading your XML file, you’ll see:  
+- A **graph** displaying historical glucose data.  
+- The **forecasted glucose values** for the next 30 minutes overlaid on the same chart.  
 
-Click the "Get Prediction" button.
+---
 
-The application will process the data and display a chart showing the last 2 hours of historical glucose levels and the 30-minute forecast.
+## 📬 Future Enhancements  
+- Add patient authentication and profile management.  
+- Integrate real-time glucose data from IoT-based glucometers.  
+- Deploy the app using Docker or AWS.  
 
-Model Information
-The prediction model is a Transformer Encoder network built with TensorFlow and Keras. The architecture is defined in glucometer_app/ml_utils.py. The pre-trained model weights and architecture are saved in the glucometer_app/model/glucometer_transformer_model.h5 file.
+---
 
-License
-This project is licensed under the MIT License. See the LICENSE file for details.
+## 🧑‍💻 Author  
+**Venkatesh Kondapalli**  
+📧 [Your Email or LinkedIn]  
+💻 Passionate about AI, ML, and Intelligent Healthcare Systems  
